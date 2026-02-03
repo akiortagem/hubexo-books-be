@@ -5,15 +5,18 @@ import java.util.UUID;
 
 import com.hubexo.book.application.dto.BookResponse;
 import com.hubexo.book.application.dto.CreateBookParams;
+import com.hubexo.book.application.port.in.BookValidationUseCase;
 import com.hubexo.book.application.port.in.CreateBookUseCase;
 import com.hubexo.book.application.port.out.BookRepositoryPort;
 import com.hubexo.book.domain.Book;
 
 public class CreateBookService implements CreateBookUseCase {
     private final BookRepositoryPort repo;
+    private final BookValidationUseCase validator;
 
-    public CreateBookService(BookRepositoryPort repo){
+    public CreateBookService(BookRepositoryPort repo, BookValidationUseCase validator){
         this.repo = Objects.requireNonNull(repo, "repo");
+        this.validator = Objects.requireNonNull(validator, "validator");
     }
 
     @Override
@@ -29,6 +32,8 @@ public class CreateBookService implements CreateBookUseCase {
             params.genre(), 
             params.desc()
         );
+
+        validator.validateBook(created);
 
         Book saved = repo.save(created);
 

@@ -12,6 +12,7 @@ import com.hubexo.book.application.port.in.HealthCheckUseCase;
 import com.hubexo.book.application.port.in.ListBooksUseCase;
 import com.hubexo.book.application.port.in.UpdateBookUseCase;
 import com.hubexo.book.application.port.out.BookRepositoryPort;
+import com.hubexo.book.application.service.BookValidationService;
 import com.hubexo.book.application.service.CreateBookService;
 import com.hubexo.book.application.service.DeleteBookService;
 import com.hubexo.book.application.service.GetBookService;
@@ -33,7 +34,7 @@ public class UseCaseConfig {
 
     @Bean
     CreateBookUseCase createBookUseCase(BookRepositoryPort repo){
-        return new CreateBookService(repo);
+        return new CreateBookService(repo, new BookValidationService());
     }
 
     @Bean
