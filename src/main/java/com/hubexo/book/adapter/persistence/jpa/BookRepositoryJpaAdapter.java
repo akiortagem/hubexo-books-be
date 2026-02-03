@@ -1,5 +1,7 @@
 package com.hubexo.book.adapter.persistence.jpa;
 
+import java.util.Optional;
+
 import com.hubexo.book.adapter.persistence.jpa.entity.BookJpaEntity;
 import com.hubexo.book.adapter.persistence.jpa.mapper.BookJpaMapper;
 import com.hubexo.book.adapter.persistence.jpa.repository.SpringDataBookJpaRepository;
@@ -20,5 +22,10 @@ public class BookRepositoryJpaAdapter implements BookRepositoryPort {
     public Book save(Book book){
         BookJpaEntity saved = repo.save(BookJpaMapper.toEntity(book));
         return BookJpaMapper.toDomain(saved);
+    }
+
+    @Override
+    public Optional<Book> getById(String id){
+        return repo.findById(id).map(BookJpaMapper::toDomain);
     }
 }
