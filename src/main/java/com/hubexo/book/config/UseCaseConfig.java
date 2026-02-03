@@ -8,10 +8,12 @@ import com.hubexo.book.adapter.persistence.jpa.repository.SpringDataBookJpaRepos
 import com.hubexo.book.application.port.in.CreateBookUseCase;
 import com.hubexo.book.application.port.in.GetBookUseCase;
 import com.hubexo.book.application.port.in.HealthCheckUseCase;
+import com.hubexo.book.application.port.in.ListBooksUseCase;
 import com.hubexo.book.application.port.out.BookRepositoryPort;
 import com.hubexo.book.application.service.CreateBookService;
 import com.hubexo.book.application.service.GetBookService;
 import com.hubexo.book.application.service.HealthCheckService;
+import com.hubexo.book.application.service.ListBooksService;
 
 @Configuration
 public class UseCaseConfig {
@@ -33,5 +35,10 @@ public class UseCaseConfig {
     @Bean
     GetBookUseCase getBookUseCase(BookRepositoryPort repo){
         return new GetBookService(repo);
+    }
+
+    @Bean
+    ListBooksUseCase listBooksUseCase(BookRepositoryPort repo){
+        return new ListBooksService(repo);
     }
 }

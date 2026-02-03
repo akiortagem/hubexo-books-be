@@ -1,7 +1,8 @@
 package com.hubexo.book.application.port.in;
 
-import com.hubexo.book.adapter.web.response.BookPaginated;
+import com.hubexo.book.application.dto.BookResponse;
+import com.hubexo.book.application.dto.PageResponse;
 
 public interface ListBooksUseCase {
-    BookPaginated listBooks(String cursor, int limit);
+    PageResponse<BookResponse> listBooks(int page, int pageSize);
 }

@@ -19,7 +19,8 @@ public final class BookJpaMapper {
             book.isbn(),
             book.pubYear(),
             book.genre(),
-            book.desc()
+            book.desc(),
+            null
         );
     }
 

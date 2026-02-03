@@ -15,4 +15,9 @@ public class ApiExceptionHandler {
     public ResponseEntity<ApiErrorResponse> notFound(BookNotFoundException ex){
         return ResponseEntity.status(NOT_FOUND).body(new ApiErrorResponse("not_found", ex.getMessage()));
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiErrorResponse> badParams(IllegalArgumentException ex){
+        return ResponseEntity.status(400).body(new ApiErrorResponse("bad_request", ex.getMessage()));
+    }
 }

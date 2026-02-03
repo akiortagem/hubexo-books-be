@@ -3,6 +3,7 @@ package com.hubexo.book.adapter.persistence.jpa.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 @Entity
@@ -35,8 +36,15 @@ public class BookJpaEntity {
     @Column(name = "description", nullable = false, length = 2000)
     private String desc;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = true, updatable = false)
     private java.time.Instant createdAt;
+
+    @PrePersist
+    void onCreate(){
+        if(createdAt == null){
+            createdAt = java.time.Instant.now();
+        }
+    }
 
     protected BookJpaEntity() {
     }
