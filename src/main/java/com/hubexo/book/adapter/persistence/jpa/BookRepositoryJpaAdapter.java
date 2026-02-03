@@ -11,6 +11,7 @@ import com.hubexo.book.adapter.persistence.jpa.repository.SpringDataBookJpaRepos
 import com.hubexo.book.application.dto.Paged;
 import com.hubexo.book.application.port.out.BookRepositoryPort;
 import com.hubexo.book.domain.Book;
+import com.hubexo.book.domain.exceptions.BookNotFoundException;
 
 import jakarta.transaction.Transactional;
 
@@ -46,5 +47,14 @@ public class BookRepositoryJpaAdapter implements BookRepositoryPort {
             page.getTotalElements(),
             page.getTotalPages()
         );
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(String id){
+        int affected = repo.deleteByIdReturningCount(id);
+        if (affected == 0){
+            throw new BookNotFoundException("book not found: " +id);
+        }
     }
 }
