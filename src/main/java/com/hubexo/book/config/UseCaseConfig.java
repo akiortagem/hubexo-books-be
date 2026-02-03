@@ -10,12 +10,14 @@ import com.hubexo.book.application.port.in.DeleteBookUseCase;
 import com.hubexo.book.application.port.in.GetBookUseCase;
 import com.hubexo.book.application.port.in.HealthCheckUseCase;
 import com.hubexo.book.application.port.in.ListBooksUseCase;
+import com.hubexo.book.application.port.in.UpdateBookUseCase;
 import com.hubexo.book.application.port.out.BookRepositoryPort;
 import com.hubexo.book.application.service.CreateBookService;
 import com.hubexo.book.application.service.DeleteBookService;
 import com.hubexo.book.application.service.GetBookService;
 import com.hubexo.book.application.service.HealthCheckService;
 import com.hubexo.book.application.service.ListBooksService;
+import com.hubexo.book.application.service.UpdateBookService;
 
 @Configuration
 public class UseCaseConfig {
@@ -47,5 +49,10 @@ public class UseCaseConfig {
     @Bean
     DeleteBookUseCase deleteBookUseCase(BookRepositoryPort repo){
         return new DeleteBookService(repo);
+    }
+
+    @Bean
+    UpdateBookUseCase updateBookUseCase(BookRepositoryPort repo){
+        return new UpdateBookService(repo);
     }
 }

@@ -57,4 +57,17 @@ public class BookRepositoryJpaAdapter implements BookRepositoryPort {
             throw new BookNotFoundException("book not found: " +id);
         }
     }
+
+    @Override
+    @Transactional
+    public Book update(Book book){
+        Boolean exist = repo.existsById(book.id().toString());
+
+        if(!exist){
+            throw new BookNotFoundException("book not found: " +book.id().toString());
+        }
+
+        BookJpaEntity saved = repo.save(BookJpaMapper.toEntity(book));
+        return BookJpaMapper.toDomain(saved);
+    }
 }
