@@ -35,6 +35,9 @@ public class BookJpaEntity {
     @Column(name = "description", nullable = false, length = 2000)
     private String desc;
 
+    @Column(name = "created_at", nullable = false)
+    private java.time.Instant createdAt;
+
     protected BookJpaEntity() {
     }
 
@@ -45,7 +48,8 @@ public class BookJpaEntity {
         String isbn,
         String pubYear,
         String genre,
-        String desc
+        String desc,
+        java.time.Instant createdAt
     ) {
         this.id = id;
         this.title = title;
@@ -54,6 +58,7 @@ public class BookJpaEntity {
         this.pubYear = pubYear;
         this.genre = genre;
         this.desc = desc;
+        this.createdAt = createdAt;
     }
 
     public String getId() { return id; }
@@ -63,4 +68,5 @@ public class BookJpaEntity {
     public String getPubYear() { return pubYear; }
     public String getGenre() { return genre; }
     public String getDesc() { return desc; }
+    public java.time.Instant getCreatedAt() { return createdAt; }
 }
