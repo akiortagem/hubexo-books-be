@@ -108,6 +108,30 @@ class BooksControllerTest {
     }
 
     @Test
+    void create_withInvalidIsbn_returns400() throws Exception {
+        when(bookCreator.create(any(CreateBookParams.class)))
+            .thenThrow(new IllegalArgumentException("isbn is invalid"));
+
+        var request = new CreateBookRequest(
+            "Clean Architecture",
+            "Robert C. Martin",
+            "123",
+            "2017",
+            "Software",
+            "A guide to software structure"
+        );
+
+        mockMvc.perform(post("/api/books")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.code").value("bad_request"))
+            .andExpect(jsonPath("$.message").value("isbn is invalid"));
+
+        verify(bookCreator).create(any(CreateBookParams.class));
+    }
+
+    @Test
     void listBooks_returnsPagedResponse() throws Exception {
         var id = UUID.fromString("4f6f8e9a-2f5c-4b1b-bb6a-9b3d1cc8d7ad");
         var book = new BookResponse(
