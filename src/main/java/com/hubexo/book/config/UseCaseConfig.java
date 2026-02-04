@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.hubexo.book.adapter.persistence.jpa.BookRepositoryJpaAdapter;
 import com.hubexo.book.adapter.persistence.jpa.repository.SpringDataBookJpaRepository;
+import com.hubexo.book.application.port.in.BookValidationUseCase;
 import com.hubexo.book.application.port.in.CreateBookUseCase;
 import com.hubexo.book.application.port.in.DeleteBookUseCase;
 import com.hubexo.book.application.port.in.GetBookUseCase;
@@ -33,8 +34,13 @@ public class UseCaseConfig {
     }
 
     @Bean
-    CreateBookUseCase createBookUseCase(BookRepositoryPort repo){
-        return new CreateBookService(repo, new BookValidationService());
+    BookValidationUseCase bookValidationUseCase(){
+        return new BookValidationService();
+    }
+
+    @Bean
+    CreateBookUseCase createBookUseCase(BookRepositoryPort repo, BookValidationUseCase validator){
+        return new CreateBookService(repo, validator);
     }
 
     @Bean
@@ -53,7 +59,7 @@ public class UseCaseConfig {
     }
 
     @Bean
-    UpdateBookUseCase updateBookUseCase(BookRepositoryPort repo){
-        return new UpdateBookService(repo);
+    UpdateBookUseCase updateBookUseCase(BookRepositoryPort repo, BookValidationUseCase validator){
+        return new UpdateBookService(repo, validator);
     }
 }
