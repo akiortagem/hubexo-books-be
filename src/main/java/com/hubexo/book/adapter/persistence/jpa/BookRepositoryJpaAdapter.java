@@ -35,10 +35,17 @@ public class BookRepositoryJpaAdapter implements BookRepositoryPort {
     }
 
     @Override
-    public Paged<Book> findPage(int pageZero, int pageSize){
+    public Paged<Book> findPage(int pageZero, int pageSize, String keywordString){
         var pageable = PageRequest.of(pageZero, pageSize, Sort.by("createdAt").ascending());
 
-        var page = repo.findAll(pageable);
+        var keyword = keywordString == null ? "" : keywordString.trim();
+        var page = keyword.isBlank()
+            ? repo.findAll(pageable)
+            : repo.findByTitleContainingIgnoreCaseOrAuthorContainingIgnoreCase(
+                keyword,
+                keyword,
+                pageable
+            );
 
         var items = page.getContent().stream().map(BookJpaMapper::toDomain).toList();
 

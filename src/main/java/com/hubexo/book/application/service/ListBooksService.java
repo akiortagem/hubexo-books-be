@@ -15,13 +15,13 @@ public class ListBooksService implements ListBooksUseCase {
     }
 
     @Override
-    public PageResponse<BookResponse> listBooks(int page, int pageSize){
+    public PageResponse<BookResponse> listBooks(int page, int pageSize, String keywordString){
         if(page < 1) throw new IllegalArgumentException("page must be >= 1");
         if(page < 1 || pageSize > 100) throw new IllegalArgumentException("can only have page between 1 and 100");
 
         int pageZero = page - 1;
 
-        var paged = repo.findPage(pageZero, pageSize);
+        var paged = repo.findPage(pageZero, pageSize, keywordString);
         
         List<BookResponse> items = paged.items()
             .stream()
