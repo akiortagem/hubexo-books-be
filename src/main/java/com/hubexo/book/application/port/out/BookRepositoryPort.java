@@ -9,6 +9,6 @@ public interface BookRepositoryPort {
     Book save(Book book);
     Book update(Book book);
     Optional<Book> getById(String id);
-    Paged<Book> findPage(int pageIndexZeroBased, int pageSize);
+    Paged<Book> findPage(int pageIndexZeroBased, int pageSize, String keywordString);
     void deleteById(String id);
 }

@@ -60,9 +60,10 @@ public class BooksController {
     @GetMapping
     public PageResponse<BookRestResponse> listBooks(
         @RequestParam(defaultValue = "1") int page,
-        @RequestParam(defaultValue = "20") int pageSize
+        @RequestParam(defaultValue = "20") int pageSize,
+        @RequestParam(required = false, defaultValue = "") String keywordString
     ){
-        var result = bookLister.listBooks(page, pageSize);
+        var result = bookLister.listBooks(page, pageSize, keywordString);
 
         return new PageResponse<BookRestResponse>(
             result.page(),

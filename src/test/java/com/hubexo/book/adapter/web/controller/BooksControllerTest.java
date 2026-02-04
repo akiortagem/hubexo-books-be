@@ -150,7 +150,7 @@ class BooksControllerTest {
             1L,
             List.of(book)
         );
-        when(bookLister.listBooks(1, 20)).thenReturn(pageResponse);
+        when(bookLister.listBooks(1, 20, "")).thenReturn(pageResponse);
 
         mockMvc.perform(get("/api/books")
                 .param("page", "1")
@@ -167,6 +167,35 @@ class BooksControllerTest {
             .andExpect(jsonPath("$.items[0].pubYear").value("1999"))
             .andExpect(jsonPath("$.items[0].genre").value("Software"))
             .andExpect(jsonPath("$.items[0].desc").value("Classic software craftsmanship"));
+    }
+
+    @Test
+    void listBooks_withKeyword_passesKeywordThrough() throws Exception {
+        var id = UUID.fromString("a6b7e3aa-9b5a-4db7-9b7a-23b0f1ad7c62");
+        var book = new BookResponse(
+            id,
+            "Refactoring",
+            "Martin Fowler",
+            "9780201485677",
+            "1999",
+            "Software",
+            "Improving the design of existing code"
+        );
+        var pageResponse = new PageResponse<>(
+            1,
+            20,
+            1,
+            1L,
+            List.of(book)
+        );
+        when(bookLister.listBooks(1, 20, "martin")).thenReturn(pageResponse);
+
+        mockMvc.perform(get("/api/books")
+                .param("page", "1")
+                .param("pageSize", "20")
+                .param("keywordString", "martin"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.items[0].author").value("Martin Fowler"));
     }
 
     @Test
